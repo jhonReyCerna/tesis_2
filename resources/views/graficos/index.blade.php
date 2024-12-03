@@ -49,10 +49,28 @@
     {{-- Charts --}}
     <div class="row mt-4">
         {{-- Bar Chart --}}
+        @php
+            $monthlyData = App\Models\Venta::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+                ->whereYear('created_at', '2024')
+                ->groupBy('month')
+                ->orderBy('month')
+                ->pluck('total', 'month')
+                ->toArray();
+
+            $months = [
+                'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+            ];
+
+            $salesData = array_map(function($month) use ($monthlyData) {
+                return $monthlyData[$month] ?? 0;
+            }, range(1, 12));
+        @endphp
+
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Ventas Mensuales</h3>
+                    <h3 class="card-title">Ventas Mensuales 2024</h3>
                 </div>
                 <div class="card-body">
                     <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
@@ -88,46 +106,56 @@
     </div>
 @stop
 
-@section('js')
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        // Bar Chart
-        new Chart(document.getElementById('barChart'), {
-            type: 'bar',
-            data: {
-                labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
-                datasets: [{
-                    label: 'Ventas',
-                    data: [65, 59, 80, 81, 56, 55],
-                    backgroundColor: '#007bff'
-                }]
+@push('js')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Bar Chart
+    new Chart(document.getElementById('barChart'), {
+        type: 'bar',
+        data: {
+            labels: @json($months),
+            datasets: [{
+                label: 'Ventas 2024',
+                data: @json($salesData),
+                backgroundColor: '#007bff'
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
             }
-        });
+        }
+    });
 
-        // Pie Chart
-        new Chart(document.getElementById('pieChart'), {
-            type: 'pie',
-            data: {
-                labels: ['Electrónicos', 'Ropa', 'Alimentos', 'Otros'],
-                datasets: [{
-                    data: [30, 20, 25, 25],
-                    backgroundColor: ['#dc3545', '#28a745', '#ffc107', '#17a2b8']
-                }]
-            }
-        });
+    // Pie Chart
+    new Chart(document.getElementById('pieChart'), {
+        type: 'pie',
+        data: {
+            labels: ['Electrónicos', 'Ropa', 'Alimentos', 'Otros'],
+            datasets: [{
+                data: [30, 20, 25, 25],
+                backgroundColor: ['#dc3545', '#28a745', '#ffc107', '#17a2b8']
+            }]
+        }
+    });
 
-        // Line Chart
-        new Chart(document.getElementById('lineChart'), {
-            type: 'line',
-            data: {
-                labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
-                datasets: [{
-                    label: 'Ingresos',
-                    data: [1000, 2000, 1500, 2500, 2200, 3000],
-                    borderColor: '#28a745',
-                    tension: 0.1
-                }]
-            }
-        });
-    </script>
-@stop
+    // Line Chart
+    new Chart(document.getElementById('lineChart'), {
+        type: 'line',
+        data: {
+            labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
+            datasets: [{
+                label: 'Ingresos',
+                data: [1000, 2000, 1500, 2500, 2200, 3000],
+                borderColor: '#28a745',
+                tension: 0.1
+            }]
+        }
+    });
+</script>
+@endpush
