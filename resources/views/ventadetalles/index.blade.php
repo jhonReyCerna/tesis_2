@@ -25,7 +25,6 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>ID Venta</th>
                         <th>Producto</th>
                         <th>Cantidad</th>
                         <th>Precio Unitario</th>
@@ -36,7 +35,6 @@
                     @foreach($ventaDetalles as $ventaDetalle)
                         <tr>
                             <td>{{ $ventaDetalle->id_detalle }}</td>
-                            <td>{{ $ventaDetalle->id_venta }}</td>
                             <td>{{ $ventaDetalle->producto->nombre }}</td>
                             <td>{{ $ventaDetalle->cantidad }}</td>
                             <td>{{ number_format($ventaDetalle->precio_unitario, 2, ',', '.') }}</td>

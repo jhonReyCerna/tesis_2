@@ -10,11 +10,6 @@ use Illuminate\Http\Request;
 
 class VentaDetalleController extends Controller
 {
-    // Constructor con middleware para proteger las rutas
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     // Mostrar todos los detalles de ventas
     public function index()
