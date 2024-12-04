@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\CompraController;
 use App\Http\Controllers\GraficoController;
+use App\Http\Controllers\HelpController;
 use App\Http\Controllers\PrediccionController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProveedorController;
@@ -167,3 +168,6 @@ Route::get('/graficos', [GraficoController::class, 'index'])->name('graficos.ind
 Route::get('graficos/pdf', [GraficoController::class, 'generatePDF'])->name('graficos.pdf');
 
 Route::get('/predicciones.index', [PrediccionController::class, 'index'])->name('predicciones.index');
+
+Route::get('/help/{section}', [HelpController::class, 'getHelp'])->name('help.get');
+
