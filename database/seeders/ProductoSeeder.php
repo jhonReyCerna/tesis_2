@@ -75,6 +75,21 @@ class ProductoSeeder extends Seeder
             ['nombre' => 'Teclado Ergonómico Inalámbrico', 'precio' => 140.99, 'stock' => 45, 'id_categoria' => 18, 'id_proveedor' => 3, 'id_almacen' => 1],
             ['nombre' => 'Cámara de Acción 4K', 'precio' => 950.00, 'stock' => 22, 'id_categoria' => 16, 'id_proveedor' => 10, 'id_almacen' => 2],
             ['nombre' => 'Despertador Inteligente', 'precio' => 60.00, 'stock' => 50, 'id_categoria' => 10, 'id_proveedor' => 7, 'id_almacen' => 3],
+            ['nombre' => 'Purificador de Aire', 'precio' => 300.00, 'stock' => 20, 'id_categoria' => 8, 'id_proveedor' => 11, 'id_almacen' => 1],
+            ['nombre' => 'Cámara de Seguridad IP', 'precio' => 150.00, 'stock' => 30, 'id_categoria' => 17, 'id_proveedor' => 12, 'id_almacen' => 2],
+            ['nombre' => 'Batería Externa 20000mAh', 'precio' => 50.00, 'stock' => 40, 'id_categoria' => 3, 'id_proveedor' => 13, 'id_almacen' => 3],
+            ['nombre' => 'Lámpara de Escritorio LED', 'precio' => 25.00, 'stock' => 50, 'id_categoria' => 13, 'id_proveedor' => 14, 'id_almacen' => 1],
+            ['nombre' => 'Cámara Deportiva 1080p', 'precio' => 120.00, 'stock' => 35, 'id_categoria' => 16, 'id_proveedor' => 15, 'id_almacen' => 2],
+            ['nombre' => 'Smartwatch con GPS', 'precio' => 200.00, 'stock' => 25, 'id_categoria' => 19, 'id_proveedor' => 16, 'id_almacen' => 3],
+            ['nombre' => 'Proyector Portátil', 'precio' => 400.00, 'stock' => 15, 'id_categoria' => 3, 'id_proveedor' => 17, 'id_almacen' => 1],
+            ['nombre' => 'Cafetera Automática', 'precio' => 300.00, 'stock' => 20, 'id_categoria' => 7, 'id_proveedor' => 18, 'id_almacen' => 2],
+            ['nombre' => 'Aspiradora Sin Bolsa', 'precio' => 150.00, 'stock' => 30, 'id_categoria' => 11, 'id_proveedor' => 19, 'id_almacen' => 3],
+            ['nombre' => 'Cámara de Video 4K', 'precio' => 800.00, 'stock' => 10, 'id_categoria' => 16, 'id_proveedor' => 20, 'id_almacen' => 1],
+            ['nombre' => 'Monitor Curvo 27 pulgadas', 'precio' => 600.00, 'stock' => 12, 'id_categoria' => 2, 'id_proveedor' => 21, 'id_almacen' => 2],
+            ['nombre' => 'Impresora Láser', 'precio' => 350.00, 'stock' => 18, 'id_categoria' => 27, 'id_proveedor' => 22, 'id_almacen' => 3],
+            ['nombre' => 'Router Mesh WiFi', 'precio' => 250.00, 'stock' => 25, 'id_categoria' => 3, 'id_proveedor' => 23, 'id_almacen' => 1],
+            ['nombre' => 'Cámara de Seguridad Exterior', 'precio' => 200.00, 'stock' => 20, 'id_categoria' => 17, 'id_proveedor' => 24, 'id_almacen' => 2],
+            ['nombre' => 'Smartwatch con Monitor de Ritmo Cardíaco', 'precio' => 150.00, 'stock' => 30, 'id_categoria' => 19, 'id_proveedor' => 25, 'id_almacen' => 3],
         ]);
 
     }
