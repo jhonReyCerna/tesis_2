@@ -393,12 +393,12 @@ return [
             'submenu' => [
                 [
                     'text' => 'Reporte Ventas Gráficos',
-                    'route' => '',
+                    'route' => 'reporteventas.index',
                     'icon' => 'fas fa-chart-line',
                 ],
                 [
                     'text' => 'Reporte Compras Gráficos',
-                    'route' => '',
+                    'route' => 'reportecompras.index',
                     'icon' => 'fas fa-cogs',
                 ],
 

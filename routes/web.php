@@ -9,6 +9,9 @@ use App\Http\Controllers\HelpController;
 use App\Http\Controllers\PrediccionController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\ReportecompraController;
+use App\Http\Controllers\Reporteventa;
+use App\Http\Controllers\ReporteventaController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\VentaDetalleController;
 use Illuminate\Support\Facades\Auth;
@@ -145,6 +148,11 @@ Route::get('venta/{id}/factura', [VentaController::class, 'facturaPDF'])->name('
 
 Route::get('ventas/reporte', [VentaController::class, 'reporte'])->name('ventas.reporte');
 
+Route::get('reporteventas/index', [ReporteventaController::class, 'reporteVentas'])->name('reporteventas.index');
+
+Route::get('reportecompras/index', [ReportecompraController::class, 'reporteCompras'])->name('reportecompras.index');
+
+
 //-----------------------------------------------------------------------------------------------------------------
 
 Route::get('venta_detalles/index', [VentaDetalleController::class, 'index'])->name('ventadetalles.index');
@@ -170,4 +178,7 @@ Route::get('graficos/pdf', [GraficoController::class, 'generatePDF'])->name('gra
 Route::get('/predicciones.index', [PrediccionController::class, 'index'])->name('predicciones.index');
 
 Route::get('/help/{section}', [HelpController::class, 'getHelp'])->name('help.get');
+
+
+//-----------------------------------------------------------------------------------------------------------
 
