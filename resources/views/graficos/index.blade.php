@@ -41,7 +41,8 @@
                 <span class="info-box-icon"><i class="fas fa-chart-line"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Ingresos</span>
-                    <span class="info-box-number">${{ number_format(rand(100000, 1000000), 2) }}</span>                </div>
+                    <span class="info-box-number">${{ number_format(75824, 2) }}</span>
+                </div>
             </div>
         </div>
     </div>
@@ -96,7 +97,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Tendencia de Ingresos</h3>
+                    <h3 class="card-title">Tendencia de Ventas</h3>
                 </div>
                 <div class="card-body">
                     <canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
@@ -136,7 +137,7 @@
     new Chart(document.getElementById('pieChart'), {
         type: 'pie',
         data: {
-            labels: ['Electrónicos', 'Ropa', 'Alimentos', 'Otros'],
+            labels: ['Electrónicos', 'Televisores', 'Computadoras y Laptops', 'Otros'],
             datasets: [{
                 data: [30, 20, 25, 25],
                 backgroundColor: ['#dc3545', '#28a745', '#ffc107', '#17a2b8']
@@ -148,10 +149,10 @@
     new Chart(document.getElementById('lineChart'), {
         type: 'line',
         data: {
-            labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
+            labels: ['noviembre', 'diciembre', 'enero'],
             datasets: [{
                 label: 'Ingresos',
-                data: [1000, 2000, 1500, 2500, 2200, 3000],
+                data: [1000, 1500, 1700],
                 borderColor: '#28a745',
                 tension: 0.1
             }]
