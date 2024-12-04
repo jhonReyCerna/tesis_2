@@ -386,6 +386,25 @@ return [
             ],
         ],
         [
+            'text' => 'Reportes',
+            'route' => '',
+            'icon' => 'fas fa-donate',
+
+            'submenu' => [
+                [
+                    'text' => 'Reporte Ventas Gráficos',
+                    'route' => '',
+                    'icon' => 'fas fa-chart-line',
+                ],
+                [
+                    'text' => 'Reporte Compras Gráficos',
+                    'route' => '',
+                    'icon' => 'fas fa-cogs',
+                ],
+
+            ],
+        ],
+        [
             'text' => 'Predicciones de ventas',
             'url' => 'predicciones.index',
             'icon' => 'fas fa-cogs',

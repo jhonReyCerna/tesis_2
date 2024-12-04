@@ -8,12 +8,6 @@
 
 @section('content')
 
-<div class="mb-4">
-    <a href="{{ route('graficos.pdf') }}" class="btn btn-danger">
-        <i class="fas fa-file-pdf"></i> Descargar PDF
-    </a>
-</div>
-
 {{-- Info Boxes --}}
 <div class="row">
     <div class="col-12 col-sm-6 col-md-3">
