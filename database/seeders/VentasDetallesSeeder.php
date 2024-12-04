@@ -27,6 +27,11 @@ class VentasDetallesSeeder extends Seeder
                 $igv = $subtotal * 0.18;
                 $totalVenta += $subtotal + $igv;
 
+                $randomDate = Carbon::createFromTimestamp(rand(
+                    Carbon::create(2023, 10, 1)->timestamp,
+                    Carbon::create(2023, 11, 30)->timestamp
+                ));
+
                 DB::table('ventas_detalles')->insert([
                     'id_venta' => $venta_id,
                     'id_producto' => $productos->random(),
@@ -36,8 +41,8 @@ class VentasDetallesSeeder extends Seeder
                     'igv' => $igv,
                     'subtotal' => $subtotal,
                     'cambio' => 0,
-                    'created_at' => now(),
-                    'updated_at' => now()
+                    'created_at' => $randomDate,
+                    'updated_at' => $randomDate
                 ]);
             }
 

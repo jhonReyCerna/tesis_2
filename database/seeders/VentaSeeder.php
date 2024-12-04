@@ -25,9 +25,9 @@ class VentaSeeder extends Seeder
             $clientes = collect([1]);
         }
 
-        // Create 20 ventas
+        // Create 1000 ventas in October and November
         for ($i = 1; $i <= 1000; $i++) {
-            $fecha = Carbon::now()->subDays(rand(0, 30));
+            $fecha = Carbon::now()->subDays(rand(0, 60)); // Adjusted to 60 days to cover October and November
 
             DB::table('ventas')->insert([
                 'id_cliente' => $clientes->random(),
