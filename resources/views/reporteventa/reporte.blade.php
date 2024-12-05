@@ -111,7 +111,7 @@
                 <label for="tipoGrafico">Tipo de Gráfico:</label>
                 <select id="tipoGrafico">
                     <option value="dia">Por Día</option>
-                    <option value="mes">Por Mes</option>
+                   
                 </select>
             </div>
             <div class="form-group">
@@ -242,17 +242,46 @@
         });
 
         document.getElementById('descargarPDF').addEventListener('click', () => {
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF();
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF();
 
-            pdf.text("Reporte de Ventas", 10, 10);
+    // Título del reporte
+    pdf.text("Reporte de Ventas", 10, 10);
 
-            const canvas = document.getElementById('ventasChart');
-            const imgData = canvas.toDataURL("image/png");
+    // Obtener los datos del gráfico
+    const canvas = document.getElementById('ventasChart');
+    const imgData = canvas.toDataURL("image/png");
 
-            pdf.addImage(imgData, 'PNG', 10, 20, 180, 100);
-            pdf.save("Reporte_Ventas.pdf");
-        });
+    // Agregar el gráfico como imagen
+    pdf.addImage(imgData, 'PNG', 10, 20, 180, 100);
+
+    // Obtener los valores del gráfico y las fechas
+    const tipoGrafico = document.getElementById('tipoGrafico').value;
+    const fechaInicio = document.getElementById('fechaInicio').value;
+    const fechaFin = document.getElementById('fechaFin').value;
+
+    // Descripción del gráfico
+    let descripcion = '';
+    
+    if (tipoGrafico === 'dia') {
+        descripcion = `Este gráfico muestra las ventas diarias en el rango de fechas de ${fechaInicio} a ${fechaFin}. En el eje X se representan los días, mientras que el eje Y muestra la cantidad de ventas realizadas. La línea de tendencia refleja el comportamiento general de las ventas durante este periodo.`;
+    } else {
+        descripcion = `Este gráfico muestra las ventas mensuales en el rango de fechas de ${fechaInicio} a ${fechaFin}. En el eje X se representan los meses, mientras que el eje Y muestra la cantidad de ventas realizadas en cada mes. La línea de tendencia refleja el comportamiento general de las ventas a lo largo de los meses seleccionados.`;
+    }
+
+    // Establecer el tamaño de la fuente y la posición inicial para la descripción
+    pdf.setFontSize(12);
+    const margenIzquierdo = 10;
+    let yPos = 130; // Posición inicial para la descripción
+
+    // Dividir el texto de la descripción en líneas más pequeñas para evitar que se desborde
+    const lineas = pdf.splitTextToSize(descripcion, 180 - margenIzquierdo); // Ajustar el texto al tamaño del PDF
+    pdf.text(lineas, margenIzquierdo, yPos);
+
+    // Guardar el PDF
+    pdf.save("Reporte_Ventas.pdf");
+});
+
     </script>
 </body>
 </html>
