@@ -104,7 +104,7 @@
             <h1>Tienda La Curacao</h1>
             <h2>Reporte de Ventas</h2>
         </div>
-        <img class="logo" src="{{ public_path('vendor/adminlte/dist/img/la-curacao-final.jpg') }}" alt="Logo de la tienda">
+        <img class="logo" src="{{ public_path('vendor/adminlte/dist/img/curacao.jpg') }}" alt="Logo de la tienda">
     </div>
 
     <table>
