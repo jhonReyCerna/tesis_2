@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gráfico de Ventas</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -95,6 +96,7 @@
             </div>
         </div>
         <button id="mostrarGrafico">Generar Gráfico</button>
+        <button id="descargarPDF">Descargar PDF</button>
 
         <div class="chart-container">
             <canvas id="ventasChart"></canvas>
@@ -112,9 +114,6 @@
 
         // Función para generar datos simulados con base en las fechas
         function obtenerDatosSimulados(fechaInicio, fechaFin, tipoGrafico) {
-            // Aquí podrías realizar una solicitud AJAX a tu backend para obtener los datos reales
-
-            // Simulación de datos
             const fechas = [];
             const valores = [];
 
@@ -124,17 +123,16 @@
             while (fechaActual <= fechaFinDate) {
                 if (tipoGrafico === 'dia') {
                     fechas.push(fechaActual.toISOString().split('T')[0]);
-                    valores.push(Math.floor(Math.random() * 100) + 50); // Valores aleatorios
-                } else {
-                    const mes = fechaActual.toLocaleString('default', { month: 'long' });
-                    fechas.push(mes);
-                    valores.push(Math.floor(Math.random() * 1000) + 500); // Valores aleatorios
-                }
+                    valores.push(Math.floor(Math.random() * 100) + 50); // Valores aleatorios por día
 
-                // Incrementar fecha
-                if (tipoGrafico === 'dia') {
+                    // Incrementar día
                     fechaActual.setDate(fechaActual.getDate() + 1);
                 } else {
+                    const mes = fechaActual.toLocaleString('default', { month: 'long', year: 'numeric' });
+                    fechas.push(mes);
+                    valores.push(Math.floor(Math.random() * 1000) + 500); // Valores aleatorios por mes
+
+                    // Incrementar mes
                     fechaActual.setMonth(fechaActual.getMonth() + 1);
                 }
             }
@@ -193,7 +191,7 @@
                         x: {
                             title: {
                                 display: true,
-                                text: 'Fechas'
+                                text: tipoGrafico === 'dia' ? 'Días' : 'Meses'
                             }
                         }
                     }
@@ -213,6 +211,19 @@
 
             const { fechas, valores } = obtenerDatosSimulados(fechaInicio, fechaFin, tipoGrafico);
             crearGrafico(fechas, valores);
+        });
+
+        document.getElementById('descargarPDF').addEventListener('click', () => {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+
+            pdf.text("Reporte de Ventas", 10, 10);
+
+            const canvas = document.getElementById('ventasChart');
+            const imgData = canvas.toDataURL("image/png");
+
+            pdf.addImage(imgData, 'PNG', 10, 20, 180, 100);
+            pdf.save("Reporte_Ventas.pdf");
         });
     </script>
 </body>
