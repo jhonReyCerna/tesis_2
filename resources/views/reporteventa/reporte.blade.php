@@ -46,7 +46,7 @@
             font-weight: bold;
             color: #495057;
         }
-        input, select, button {
+        input, select {
             width: 100%;
             padding: 8px;
             border: 1px solid #ced4da;
@@ -54,19 +54,47 @@
             font-size: 14px;
             box-sizing: border-box;
         }
+    
+        /* Estilos para los botones */
         button {
-            background-color: #007bff;
-            color: #ffffff;
+            padding: 12px 20px;
             border: none;
+            border-radius: 30px;
+            font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2), 0 1px 4px rgba(0, 123, 255, 0.15);
+            text-align: center;
+            width: auto;
+            display: inline-block;
         }
-        button:hover {
+    
+        /* Botón para generar el gráfico */
+        #mostrarGrafico {
+            background-color: #007bff;
+            color: white;
+        }
+    
+        #mostrarGrafico:hover {
             background-color: #0056b3;
+            box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
         }
+    
+        /* Botón para descargar PDF */
+        #descargarPDF {
+            background-color: #28a745;
+            color: white;
+        }
+    
+        #descargarPDF:hover {
+            background-color: #218838;
+            box-shadow: 0 6px 12px rgba(40, 167, 69, 0.3);
+        }
+    
         .chart-container {
             margin-top: 30px;
         }
+    
         footer {
             text-align: center;
             margin-top: 20px;
