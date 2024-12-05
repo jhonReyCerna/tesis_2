@@ -2,8 +2,6 @@
 
 @section('title', 'Reporte de ventas Gráficos')
 
-
-
 @section('content')
 <!DOCTYPE html>
 <html lang="es">
@@ -85,7 +83,6 @@
                 <select id="tipoGrafico">
                     <option value="dia">Por Día</option>
                     <option value="mes">Por Mes</option>
-                    <option value="año">Por Año</option>
                 </select>
             </div>
             <div class="form-group">
@@ -111,66 +108,111 @@
     <script>
         const ctx = document.getElementById('ventasChart').getContext('2d');
 
-        const data = {
-            labels: ['10/10', '11/10', '12/10', '13/10', '14/10', '15/10', '16/10', '17/10', '18/10', '19/10', '20/10', '21/10', '22/10', '23/10'],
-            datasets: [
-                {
-                    type: 'bar',
-                    label: 'Monto Total (S/)',
-                    data: [9000, 8000, 7000, 7500, 8500, 6000, 9500, 8900, 7300, 9200, 8400, 7100, 8800, 9400],
-                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                },
-                {
-                    type: 'line',
-                    label: 'Tendencia',
-                    data: [9000, 8000, 7000, 7500, 8500, 6000, 9500, 8900, 7300, 9200, 8400, 7100, 8800, 9400],
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 2,
-                    tension: 0.4,
-                    pointBackgroundColor: 'rgba(255, 99, 132, 1)',
-                    pointRadius: 4
-                }
-            ]
-        };
+        let ventasChart;
 
-        const config = {
-            type: 'bar',
-            data: data,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Monto Total de Ventas por Día'
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Monto Total (S/)'
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Fechas'
-                        }
-                    }
+        // Función para generar datos simulados con base en las fechas
+        function obtenerDatosSimulados(fechaInicio, fechaFin, tipoGrafico) {
+            // Aquí podrías realizar una solicitud AJAX a tu backend para obtener los datos reales
+
+            // Simulación de datos
+            const fechas = [];
+            const valores = [];
+
+            let fechaActual = new Date(fechaInicio);
+            const fechaFinDate = new Date(fechaFin);
+
+            while (fechaActual <= fechaFinDate) {
+                if (tipoGrafico === 'dia') {
+                    fechas.push(fechaActual.toISOString().split('T')[0]);
+                    valores.push(Math.floor(Math.random() * 100) + 50); // Valores aleatorios
+                } else {
+                    const mes = fechaActual.toLocaleString('default', { month: 'long' });
+                    fechas.push(mes);
+                    valores.push(Math.floor(Math.random() * 1000) + 500); // Valores aleatorios
+                }
+
+                // Incrementar fecha
+                if (tipoGrafico === 'dia') {
+                    fechaActual.setDate(fechaActual.getDate() + 1);
+                } else {
+                    fechaActual.setMonth(fechaActual.getMonth() + 1);
                 }
             }
-        };
 
-        const ventasChart = new Chart(ctx, config);
+            return { fechas, valores };
+        }
+
+        // Configuración inicial del gráfico
+        function crearGrafico(fechas, valores) {
+            if (ventasChart) ventasChart.destroy();
+
+            ventasChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: fechas,
+                    datasets: [
+                        {
+                            type: 'bar',
+                            label: 'Cantidad de Ventas',
+                            data: valores,
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            type: 'line',
+                            label: 'Tendencia',
+                            data: valores,
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+                            pointRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Ventas dinámicas según el rango de fechas'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Cantidad de Ventas'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Fechas'
+                            }
+                        }
+                    }
+                }
+            });
+        }
 
         document.getElementById('mostrarGrafico').addEventListener('click', () => {
-            alert('Funcionalidad de generación dinámica pendiente de implementación.');
+            const tipoGrafico = document.getElementById('tipoGrafico').value;
+            const fechaInicio = document.getElementById('fechaInicio').value;
+            const fechaFin = document.getElementById('fechaFin').value;
+
+            if (!fechaInicio || !fechaFin) {
+                alert('Por favor, selecciona un rango de fechas.');
+                return;
+            }
+
+            const { fechas, valores } = obtenerDatosSimulados(fechaInicio, fechaFin, tipoGrafico);
+            crearGrafico(fechas, valores);
         });
     </script>
 </body>
