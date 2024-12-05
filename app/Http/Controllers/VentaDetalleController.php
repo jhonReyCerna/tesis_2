@@ -5,20 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\VentaDetalle;
 use App\Models\Venta;
 use App\Models\Producto;
-use App\Models\Cliente; // Asegúrate de tener este modelo
+use App\Models\Cliente; 
 use Illuminate\Http\Request;
 
 class VentaDetalleController extends Controller
 {
 
-    // Mostrar todos los detalles de ventas
     public function index()
     {
         try {
-            // Cambia el nombre de la variable a $ventaDetalles si ese es el nombre esperado en la vista
             $ventaDetalles = VentaDetalle::with(['venta', 'producto'])->paginate(10);
 
-            // Asegúrate de pasar la variable correctamente a la vista
             return view('ventadetalles.index', compact('ventaDetalles'));
         } catch (\Exception $e) {
             return back()->with('error', 'Error al obtener los detalles de ventas: ' . $e->getMessage());
@@ -26,12 +23,10 @@ class VentaDetalleController extends Controller
     }
 
 
-    // Método para mostrar el formulario de creación
     public function create()
     {
-        // Suponiendo que quieres obtener el último `id_venta` y el cliente asociado
-        $venta = Venta::latest()->first(); // Obtener la última venta registrada
-        $cliente = $venta ? $venta->cliente : null; // Obtener el cliente asociado si existe
+        $venta = Venta::latest()->first(); 
+        $cliente = $venta ? $venta->cliente : null; 
 
         return view('ventadetalles.create', [
             'id_venta' => $venta->id_venta ?? null,
@@ -39,10 +34,8 @@ class VentaDetalleController extends Controller
         ]);
     }
 
-    // Almacenar un nuevo detalle de venta
     public function store(Request $request)
     {
-        // Validación de datos del formulario
         $request->validate([
             'id_venta' => 'required|exists:ventas,id_venta',
             'id_producto' => 'required|exists:productos,id_producto',
@@ -55,7 +48,6 @@ class VentaDetalleController extends Controller
         ]);
 
         try {
-            // Crear el nuevo detalle de venta
             $detalle = VentaDetalle::create([
                 'id_venta' => $request->id_venta,
                 'id_producto' => $request->id_producto,
@@ -74,7 +66,6 @@ class VentaDetalleController extends Controller
         }
     }
 
-    // Mostrar los detalles de una venta específica
     public function show($id)
     {
         try {
@@ -85,7 +76,6 @@ class VentaDetalleController extends Controller
         }
     }
 
-    // Actualizar un detalle de venta existente
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -111,7 +101,6 @@ class VentaDetalleController extends Controller
         }
     }
 
-    // Eliminar un detalle de venta
     public function destroy($id)
     {
         try {

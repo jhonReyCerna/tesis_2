@@ -157,24 +157,23 @@ class VentaController extends Controller
         $venta->id_cliente = $request->id_cliente;
         $venta->fecha_venta = $request->fecha_venta;
         $venta->estado = $request->estado;
-        $venta->totalPagar = 0; // Inicialmente es 0, se actualizará con los detalles
+        $venta->totalPagar = 0; 
         $venta->save();
 
-        // Eliminar los detalles existentes
         VentaDetalle::where('id_venta', $venta->id_venta)->delete();
 
-        // Crear los nuevos detalles de la venta
+
         $totalPagar = 0;
         foreach ($request->productos as $productoData) {
             $producto = Producto::find($productoData['id_producto']);
-            $precioUnitario = $producto->precio; // Obtener el precio del producto
+            $precioUnitario = $producto->precio; 
             $cantidad = $productoData['cantidad'];
             $descuento = $productoData['descuento'];
             $subtotal = $cantidad * $precioUnitario;
-            $igv = $subtotal * 0.18; // Calcular el IGV (18%)
+            $igv = $subtotal * 0.18; 
             $totalProducto = $subtotal - $descuento + $igv;
 
-            // Guardar el detalle de la venta
+          
             $ventaDetalle = new VentaDetalle();
             $ventaDetalle->id_venta = $venta->id_venta;
             $ventaDetalle->id_producto = $productoData['id_producto'];
@@ -183,30 +182,24 @@ class VentaController extends Controller
             $ventaDetalle->descuento = $descuento;
             $ventaDetalle->igv = $igv;
             $ventaDetalle->subtotal = $subtotal;
-            $ventaDetalle->cambio = 0; // Puedes agregar lógica para calcular el cambio si es necesario
+            $ventaDetalle->cambio = 0; 
             $ventaDetalle->save();
 
-            // Acumulamos el total
             $totalPagar += $totalProducto;
         }
 
-        // Actualizar el totalPagar de la venta
         $venta->totalPagar = $totalPagar;
         $venta->save();
 
-        // Redirigir con un mensaje de éxito
         return redirect()->route('ventas.index')->with('success', 'Venta actualizada correctamente.');
     }
 
     public function reporte()
 {
-    // Get all ventas with cliente relationship
     $ventas = Venta::with('cliente')->get();
 
-    // Generate PDF
     $pdf = PDF::loadView('ventas.reporte', compact('ventas'));
 
-    // Download with filename
     return $pdf->download('reporte-ventas.pdf');
 }
 }

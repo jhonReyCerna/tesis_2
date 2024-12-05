@@ -46,7 +46,7 @@ class CompraController extends Controller
 
 public function store(Request $request)
 {
-    // Validar la solicitud
+    
     $request->validate([
         'producto_id' => 'required|exists:productos,id_producto',
         'proveedor_id' => 'required|exists:proveedores,id_proveedor',

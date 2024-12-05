@@ -16,18 +16,18 @@ class GraficoController extends Controller
 {
     public function index()
 {
-    // Get base counts
+
     $proveedores = Proveedor::count();
     $categorias = Categoria::count();
     $clientes = Cliente::count();
     $productos = Producto::count();
 
-    // Get product stock metrics
+
     $stockBajo = Producto::where('stock', '<', 10)->count();
     $stockNormal = Producto::whereBetween('stock', [10, 50])->count();
     $stockAlto = Producto::where('stock', '>', 50)->count();
 
-    // Get monthly sales for current year
+
     $ventasPorMes = Venta::selectRaw('MONTH(fecha_venta) as mes, COUNT(*) as total')
         ->whereYear('fecha_venta', date('Y'))
         ->where('estado', 'completado')
@@ -36,8 +36,8 @@ class GraficoController extends Controller
         ->pluck('total', 'mes')
         ->toArray();
 
-    // Fill missing months with 0
-    $meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+
+        $meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
               'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
     $ventasData = array_fill(1, 12, 0);

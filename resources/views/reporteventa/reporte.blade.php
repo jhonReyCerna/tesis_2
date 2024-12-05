@@ -55,7 +55,6 @@
             box-sizing: border-box;
         }
     
-        /* Estilos para los botones */
         button {
             padding: 12px 20px;
             border: none;
@@ -69,7 +68,6 @@
             display: inline-block;
         }
     
-        /* Botón para generar el gráfico */
         #mostrarGrafico {
             background-color: #007bff;
             color: white;
@@ -80,7 +78,6 @@
             box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
         }
     
-        /* Botón para descargar PDF */
         #descargarPDF {
             background-color: #28a745;
             color: white;
@@ -140,7 +137,6 @@
 
         let ventasChart;
 
-        // Función para generar datos simulados con base en las fechas
         function obtenerDatosSimulados(fechaInicio, fechaFin, tipoGrafico) {
             const fechas = [];
             const valores = [];
@@ -151,16 +147,15 @@
             while (fechaActual <= fechaFinDate) {
                 if (tipoGrafico === 'dia') {
                     fechas.push(fechaActual.toISOString().split('T')[0]);
-                    valores.push(Math.floor(Math.random() * 100) + 50); // Valores aleatorios por día
+                    valores.push(Math.floor(Math.random() * 100) + 50); 
 
-                    // Incrementar día
+
                     fechaActual.setDate(fechaActual.getDate() + 1);
                 } else {
                     const mes = fechaActual.toLocaleString('default', { month: 'long', year: 'numeric' });
                     fechas.push(mes);
-                    valores.push(Math.floor(Math.random() * 1000) + 500); // Valores aleatorios por mes
+                    valores.push(Math.floor(Math.random() * 1000) + 500); 
 
-                    // Incrementar mes
                     fechaActual.setMonth(fechaActual.getMonth() + 1);
                 }
             }
@@ -168,7 +163,6 @@
             return { fechas, valores };
         }
 
-        // Configuración inicial del gráfico
         function crearGrafico(fechas, valores) {
             if (ventasChart) ventasChart.destroy();
 
@@ -245,22 +239,17 @@
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF();
 
-    // Título del reporte
     pdf.text("Reporte de Ventas", 10, 10);
 
-    // Obtener los datos del gráfico
     const canvas = document.getElementById('ventasChart');
     const imgData = canvas.toDataURL("image/png");
 
-    // Agregar el gráfico como imagen
     pdf.addImage(imgData, 'PNG', 10, 20, 180, 100);
 
-    // Obtener los valores del gráfico y las fechas
     const tipoGrafico = document.getElementById('tipoGrafico').value;
     const fechaInicio = document.getElementById('fechaInicio').value;
     const fechaFin = document.getElementById('fechaFin').value;
 
-    // Descripción del gráfico
     let descripcion = '';
     
     if (tipoGrafico === 'dia') {
@@ -269,16 +258,14 @@
         descripcion = `Este gráfico muestra las ventas mensuales en el rango de fechas de ${fechaInicio} a ${fechaFin}. En el eje X se representan los meses, mientras que el eje Y muestra la cantidad de ventas realizadas en cada mes. La línea de tendencia refleja el comportamiento general de las ventas a lo largo de los meses seleccionados.`;
     }
 
-    // Establecer el tamaño de la fuente y la posición inicial para la descripción
     pdf.setFontSize(12);
     const margenIzquierdo = 10;
-    let yPos = 130; // Posición inicial para la descripción
+    let yPos = 130; 
 
-    // Dividir el texto de la descripción en líneas más pequeñas para evitar que se desborde
-    const lineas = pdf.splitTextToSize(descripcion, 180 - margenIzquierdo); // Ajustar el texto al tamaño del PDF
+    const lineas = pdf.splitTextToSize(descripcion, 180 - margenIzquierdo); 
     pdf.text(lineas, margenIzquierdo, yPos);
 
-    // Guardar el PDF
+   
     pdf.save("Reporte_Ventas.pdf");
 });
 

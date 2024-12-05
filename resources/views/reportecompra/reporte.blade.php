@@ -1,7 +1,271 @@
 @extends('adminlte::page')
 
-@section('title', 'Reporte de Compras Gráficos')
+@section('title', 'Reporte de compras Gráficos')
 
-@section('content_header')
-    <h1>Reporte de Compras Gráficos</h1>
+@section('content')
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico de Compras</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+        .filters {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .filters .form-group {
+            flex: 1;
+            min-width: 150px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #495057;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+    
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2), 0 1px 4px rgba(0, 123, 255, 0.15);
+            text-align: center;
+            width: auto;
+            display: inline-block;
+        }
+    
+        #mostrarGrafico {
+            background-color: #007bff;
+            color: white;
+        }
+    
+        #mostrarGrafico:hover {
+            background-color: #0056b3;
+            box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+        }
+    
+        #descargarPDF {
+            background-color: #28a745;
+            color: white;
+        }
+    
+        #descargarPDF:hover {
+            background-color: #218838;
+            box-shadow: 0 6px 12px rgba(40, 167, 69, 0.3);
+        }
+    
+        .chart-container {
+            margin-top: 30px;
+        }
+    
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Reporte de Compras</h1>
+        <div class="filters">
+            <div class="form-group">
+                <label for="tipoGrafico">Tipo de Gráfico:</label>
+                <select id="tipoGrafico">
+                    <option value="dia">Por Día</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="fechaInicio">Fecha de Inicio:</label>
+                <input type="date" id="fechaInicio">
+            </div>
+            <div class="form-group">
+                <label for="fechaFin">Fecha de Fin:</label>
+                <input type="date" id="fechaFin">
+            </div>
+        </div>
+        <button id="mostrarGrafico">Generar Gráfico</button>
+        <button id="descargarPDF">Descargar PDF</button>
+
+        <div class="chart-container">
+            <canvas id="comprasChart"></canvas>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2024 Sistema de Compras. Todos los derechos reservados.
+    </footer>
+
+    <script>
+        const ctx = document.getElementById('comprasChart').getContext('2d');
+
+        let comprasChart;
+
+        function obtenerDatosSimulados(fechaInicio, fechaFin, tipoGrafico) {
+            const fechas = [];
+            const valores = [];
+
+            let fechaActual = new Date(fechaInicio);
+            const fechaFinDate = new Date(fechaFin);
+
+            while (fechaActual <= fechaFinDate) {
+                if (tipoGrafico === 'dia') {
+                    fechas.push(fechaActual.toISOString().split('T')[0]);
+                    valores.push(Math.floor(Math.random() * 213)); 
+
+                    fechaActual.setDate(fechaActual.getDate() + 1);
+                } else {
+                    const mes = fechaActual.toLocaleString('default', { month: 'long', year: 'numeric' });
+                    fechas.push(mes);
+                    valores.push(Math.floor(Math.random() * 213)); 
+
+                    fechaActual.setMonth(fechaActual.getMonth() + 1);
+                }
+            }
+
+            return { fechas, valores };
+        }
+
+        function crearGrafico(fechas, valores) {
+            if (comprasChart) comprasChart.destroy();
+
+            comprasChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: fechas,
+                    datasets: [
+                        {
+                            type: 'bar',
+                            label: 'Cantidad de Compras',
+                            data: valores,
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            type: 'line',
+                            label: 'Tendencia',
+                            data: valores,
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+                            pointRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Compras dinámicas según el rango de fechas'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Cantidad de Compras'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: tipoGrafico === 'dia' ? 'Días' : 'Meses'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        document.getElementById('mostrarGrafico').addEventListener('click', () => {
+            const tipoGrafico = document.getElementById('tipoGrafico').value;
+            const fechaInicio = document.getElementById('fechaInicio').value;
+            const fechaFin = document.getElementById('fechaFin').value;
+
+            if (!fechaInicio || !fechaFin) {
+                alert('Por favor, selecciona un rango de fechas.');
+                return;
+            }
+
+            const { fechas, valores } = obtenerDatosSimulados(fechaInicio, fechaFin, tipoGrafico);
+            crearGrafico(fechas, valores);
+        });
+
+        document.getElementById('descargarPDF').addEventListener('click', () => {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+
+            pdf.text("Reporte de Compras", 10, 10);
+
+            const canvas = document.getElementById('comprasChart');
+            const imgData = canvas.toDataURL("image/png");
+
+            pdf.addImage(imgData, 'PNG', 10, 20, 180, 100);
+
+            const tipoGrafico = document.getElementById('tipoGrafico').value;
+            const fechaInicio = document.getElementById('fechaInicio').value;
+            const fechaFin = document.getElementById('fechaFin').value;
+
+            let descripcion = '';
+            
+            if (tipoGrafico === 'dia') {
+                descripcion = `Este gráfico muestra las compras diarias en el rango de fechas de ${fechaInicio} a ${fechaFin}. En el eje X se representan los días, mientras que el eje Y muestra la cantidad de compras realizadas. La línea de tendencia refleja el comportamiento general de las compras durante este periodo.`;
+            } else {
+                descripcion = `Este gráfico muestra las compras mensuales en el rango de fechas de ${fechaInicio} a ${fechaFin}. En el eje X se representan los meses, mientras que el eje Y muestra la cantidad de compras realizadas en cada mes. La línea de tendencia refleja el comportamiento general de las compras a lo largo de los meses seleccionados.`;
+            }
+
+            pdf.setFontSize(12);
+            const margenIzquierdo = 10;
+            let yPos = 130;
+
+            const lineas = pdf.splitTextToSize(descripcion, 180 - margenIzquierdo);
+            pdf.text(lineas, margenIzquierdo, yPos);
+
+            pdf.save("Reporte_Compras.pdf");
+        });
+    </script>
+</body>
+</html>
 @stop

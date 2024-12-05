@@ -36,14 +36,13 @@ class ProductoController extends Controller
 {
     $request->validate([
         'nombre' => 'required|string|max:255',
-        'precio' => 'required|numeric|min:0', // Asegúrate de que sea un número positivo
+        'precio' => 'required|numeric|min:0', 
         'stock' => 'required|integer|min:0',
         'id_categoria' => 'required|exists:categorias,id_categoria',
         'id_proveedor' => 'required|exists:proveedores,id_proveedor',
         'id_almacen' => 'required|exists:almacenes,id_almacen',
     ]);
 
-    // Guardar el producto
     Producto::create($request->all());
 
     return redirect()->route('productos.index')->with('success', 'Producto creado con éxito.');

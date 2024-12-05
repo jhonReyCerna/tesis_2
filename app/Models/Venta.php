@@ -19,13 +19,11 @@ class Venta extends Model
         'estado',
     ];
 
-    // Relación con los detalles de la venta (productos vendidos)
     public function detalles()
     {
         return $this->hasMany(VentaDetalle::class, 'id_venta');
     }
 
-    // Relación con el cliente
     public function cliente()
     {
         return $this->belongsTo(Cliente::class, 'id_cliente');

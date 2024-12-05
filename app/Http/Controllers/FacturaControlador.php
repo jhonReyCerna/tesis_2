@@ -14,15 +14,15 @@ class FacturaControlador extends Controller
     {
         $venta = Venta::with('cliente', 'detalles.producto')->findOrFail($id);
 
-        // Definir el nombre y la ruta del archivo QR
+
         $qrCodeFileName = 'qr_codes/factura_' . $venta->id_venta . '.png';
         $qrCodePath = storage_path('app/public/' . $qrCodeFileName);
 
 
-        // Generar la URL accesible del QR code
+
         $qrCodeUrl = asset('storage/' . $qrCodeFileName);
 
-        // Cargar la vista con los datos necesarios
+
         $pdf = Pdf::loadView('factura', compact('venta', 'qrCodeUrl'));
         $pdf->setPaper('a4', 'portrait');
 
