@@ -29,7 +29,7 @@
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Nª</th>
                         <th>Producto</th>
                         <th>Proveedor</th>
                         <th>Cantidad</th>

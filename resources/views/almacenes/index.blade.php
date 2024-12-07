@@ -26,7 +26,7 @@
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Nª</th>
                         <th>Nombre</th>
                         <th>Ubicación</th>
                         <th>Capacidad</th>

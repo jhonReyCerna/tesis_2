@@ -42,7 +42,7 @@
             <span class="info-box-icon"><i class="fas fa-chart-line"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text">Ingresos</span>
-                <span class="info-box-number">${{ number_format(75824, 2) }}</span>
+                <span class="info-box-number">${{ number_format(170541, 2) }}</span>
             </div>
         </div>
     </div>
