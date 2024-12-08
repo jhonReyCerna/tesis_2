@@ -12,7 +12,7 @@
                     </div>
                     <div class="card-body">
                         <iframe
-                            src="http://localhost:8501"
+                            src="https://preventas.streamlit.app/"
                             width="100%"
                             height="800"
                             frameborder="0"
