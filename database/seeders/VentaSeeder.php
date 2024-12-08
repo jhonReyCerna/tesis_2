@@ -10,11 +10,11 @@ class VentaSeeder extends Seeder
 {
     public function run()
     {
-        // First ensure we have clients
+
         $clientes = DB::table('clientes')->pluck('id_cliente');
 
         if ($clientes->isEmpty()) {
-            // Create at least one client if none exist
+
             DB::table('clientes')->insert([
                 'id_cliente' => 1,
                 'nombre' => 'Cliente Default',
@@ -25,9 +25,10 @@ class VentaSeeder extends Seeder
             $clientes = collect([1]);
         }
 
-
-        for ($i = 1; $i <= 1000; $i++) {
-            $fecha = Carbon::now()->subDays(rand(0, 60)); 
+        $startDate = Carbon::create(2024, 8, 1); 
+        $endDate = Carbon::create(2024, 11, 30); 
+        for ($i = 1; $i <= 2000; $i++) {
+            $fecha = Carbon::createFromTimestamp(rand($startDate->timestamp, $endDate->timestamp));
 
             DB::table('ventas')->insert([
                 'id_cliente' => $clientes->random(),

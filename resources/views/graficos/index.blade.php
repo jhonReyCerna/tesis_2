@@ -42,7 +42,7 @@
             <span class="info-box-icon"><i class="fas fa-chart-line"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text">Ingresos</span>
-                <span class="info-box-number">${{ number_format(170541, 2) }}</span>
+                <span class="info-box-number">${{ number_format(230548, 2) }}</span>
             </div>
         </div>
     </div>
@@ -76,15 +76,15 @@
 </div>
 
 {{-- Line Chart --}}
-<div class="row mt-4">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Tendencia de Ventas</h3>
-            </div>
-            <div class="card-body">
-                <canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-            </div>
+
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Tendencia de Ventas</h3>
+        </div>
+        <div class="card-body">
+            <canvas id="trendChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
         </div>
     </div>
 </div>
@@ -200,27 +200,51 @@
 @push('js')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Gráfico de Barras
-    new Chart(document.getElementById('barChart'), {
-        type: 'bar',
-        data: {
-            labels: ['Octubre', 'Noviembre'],
-            datasets: [{
-                label: 'Ventas 2024',
-                data: [480, 520],
-                backgroundColor: '#007bff'
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 1
+    document.addEventListener('DOMContentLoaded', function () {
+        var ctx = document.getElementById('barChart').getContext('2d');
+        var barChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Agosto', 'Septiembre', 'Octubre', 'Noviembre'],
+                datasets: [{
+                    label: 'Ventas Mensuales 2024',
+                    data: [410, 480, 530, 580],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
                     }
                 }
             }
-        }
+        });
+
+        var trendCtx = document.getElementById('trendChart').getContext('2d');
+        var trendChart = new Chart(trendCtx, {
+            type: 'line',
+            data: {
+                labels: ['Agosto', 'Septiembre', 'Octubre', 'Noviembre'],
+                datasets: [{
+                    label: 'Tendencia de Ventas',
+                    data: [410, 480, 530, 580],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    fill: true
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
     });
 
     // Pie Chart
@@ -235,19 +259,8 @@
         }
     });
 
-    // Line Chart
-    new Chart(document.getElementById('lineChart'), {
-        type: 'line',
-        data: {
-            labels: ['octubre', 'noviembre'],
-            datasets: [{
-                label: 'Ventas',
-                data: [480, 520],
-                borderColor: '#28a745',
-                tension: 0.1
-            }]
-        }
-    });
+ 
+    
 
     // Mostrar el Modal de Ayuda al presionar F1
     document.addEventListener('keydown', (event) => {

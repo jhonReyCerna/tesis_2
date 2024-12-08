@@ -27,7 +27,7 @@
                 <thead>
                     <tr>
                         <th>Nª</th>
-                        <th>Nombre</th>
+                        <th>Producto</th>
                         <th>Precio</th>
                         <th>Stock</th>
                         <th>Categoría</th>
