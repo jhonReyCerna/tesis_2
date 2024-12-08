@@ -182,3 +182,6 @@ Route::get('/help/{section}', [HelpController::class, 'getHelp'])->name('help.ge
 
 //-----------------------------------------------------------------------------------------------------------
 
+Route::get('/ayuda', function () {
+    return response()->download(public_path('ayuda/ventas.chm'));
+});
