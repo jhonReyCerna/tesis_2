@@ -13,8 +13,8 @@ return new class extends Migration
 {
     Schema::create('help', function (Blueprint $table) {
         $table->id();
-        $table->string('section'); // Nombre de la sección o página
-        $table->text('content');  // Contenido de ayuda
+        $table->string('section'); 
+        $table->text('content');  
         $table->timestamps();
     });
 }

@@ -7,8 +7,9 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header d-flex justify-content-between align-items-center">
                         <h3 class="card-title">Predicción de Ventas</h3>
+                        <a href="https://preventas.streamlit.app/" class="btn btn-primary" target="_blank">Ir a la página de predicción</a>
                     </div>
                     <div class="card-body">
                         <iframe

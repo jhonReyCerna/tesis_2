@@ -48,10 +48,9 @@
     </div>
 </div>
 
-{{-- Charts --}}
+ 
 <div class="row mt-4">
-    {{-- Bar Chart --}}
-    <div class="col-md-6">
+     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Ventas Mensuales 2024</h3>
@@ -62,8 +61,7 @@
         </div>
     </div>
 
-    {{-- Pie Chart --}}
-    <div class="col-md-6">
+     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Distribución de Productos</h3>
@@ -75,8 +73,7 @@
     </div>
 </div>
 
-{{-- Line Chart --}}
-
+ 
 
 <div class="col-md-12">
     <div class="card">
@@ -89,8 +86,7 @@
     </div>
 </div>
 
-{{-- Modal y Overlay de Ayuda --}}
-<div id="overlay"></div>
+ <div id="overlay"></div>
 <div id="helpModal">
     <div id="helpContent"></div>
     <button onclick="closeHelpModal()">Cerrar</button>
@@ -100,8 +96,7 @@
 
 @push('css')
 <style>
-    /* Estilos para el modal y el overlay */
-    #overlay {
+     #overlay {
         position: fixed;
         top: 0;
         left: 0;
@@ -134,8 +129,7 @@
         line-height: 1.6;
     }
 
-    /* Add to your existing CSS */
-    .alert-modal {
+     .alert-modal {
         position: fixed;
         top: -100px;
         left: 50%;
@@ -157,7 +151,7 @@
             opacity: 0;
         }
         100% {
-            top: 250px; /* Increased from 120px to 250px to appear lower */
+            top: 250px;  
             opacity: 1;
         }
     }
@@ -186,7 +180,7 @@
 
     @keyframes slideUp {
         0% {
-            top: 250px; /* Match the new position */
+            top: 250px;  
             opacity: 1;
         }
         100% {
@@ -247,8 +241,7 @@
         });
     });
 
-    // Pie Chart
-    new Chart(document.getElementById('pieChart'), {
+     new Chart(document.getElementById('pieChart'), {
         type: 'pie',
         data: {
             labels: ['Electrónicos', 'Televisores', 'Computadoras y Laptops', 'Otros'],
@@ -262,10 +255,9 @@
  
     
 
-    // Mostrar el Modal de Ayuda al presionar F1
-    document.addEventListener('keydown', (event) => {
+     document.addEventListener('keydown', (event) => {
         if (event.key === 'F1') {
-            event.preventDefault(); // Evita la acción predeterminada de F1.
+            event.preventDefault(); 
             showHelpModal('dashboard');
         }
     });
@@ -313,23 +305,19 @@
     function handleHelpError(error) {
         console.error('Error al cargar contenido de ayuda:', error.message);
         
-        // Create alert element
-        const alertElement = document.createElement('div');
+         const alertElement = document.createElement('div');
         alertElement.className = 'alert-modal';
         
-        // Add content with icon
-        alertElement.innerHTML = `
+         alertElement.innerHTML = `
             <div class="alert-content">
                 <i class="fas fa-info-circle alert-icon"></i>
                 <span>Pasando a la ayuda en línea...</span>
             </div>
         `;
         
-        // Add to document
-        document.body.appendChild(alertElement);
+         document.body.appendChild(alertElement);
         
-        // Remove after delay and redirect
-        setTimeout(() => {
+         setTimeout(() => {
             alertElement.style.animation = 'slideUp 0.5s ease-in forwards';
             setTimeout(() => {
                 alertElement.remove();
@@ -338,8 +326,7 @@
         }, 3000);
     }
 
-    // Add this animation for removal
-    const style = document.createElement('style');
+     const style = document.createElement('style');
     style.textContent = `
         @keyframes slideUp {
             0% {

@@ -12,7 +12,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Desactivamos las comprobaciones de claves foráneas para evitar problemas durante la migración
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
         Schema::create('proveedores', function (Blueprint $table) {
@@ -25,7 +24,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Volvemos a habilitar las comprobaciones de claves foráneas
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 

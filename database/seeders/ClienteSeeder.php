@@ -82,7 +82,7 @@ class ClienteSeeder extends Seeder
                 'email' => $email,
                 'dni' => rand(10000000, 99999999),
                 'fecha_nacimiento' => $fecha_nacimiento,
-                'genero' => $genero, // Asignar el género
+                'genero' => $genero, 
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ];
