@@ -19,9 +19,21 @@ class VentaController extends Controller
 
     public function create()
     {
+        // Crear una nueva venta y registrar la hora de inicio
+        $venta = new Venta();
+        $venta->id_cliente = 1; // Asume que el cliente está asignado, esto puede cambiar según tu lógica
+        $venta->totalPagar = 0; // Total inicial (se actualizará más tarde)
+        $venta->fecha_venta = now(); // Fecha actual
+        $venta->estado = 'En proceso'; // Estado inicial
+        $venta->inicio_registro = now(); // Hora de inicio
+        $venta->save();
+
+        // Obtener todos los clientes y productos
         $clientes = Cliente::all();
         $productos = Producto::all();
-        return view('ventas.create', compact('clientes', 'productos'));
+
+        // Redirigir a la vista de creación de venta (puedes cambiar a otra vista si es necesario)
+        return view('ventas.create', compact('clientes', 'productos', 'venta'));
     }
 
     public function store(Request $request)
@@ -37,15 +49,16 @@ class VentaController extends Controller
             'productos.*.precio_unitario' => 'required|numeric|min:0',
             'productos.*.descuento' => 'nullable|numeric|min:0', // Hacer que el descuento sea opcional
         ]);
-
+    
         // Crear la venta
         $venta = new Venta();
         $venta->id_cliente = $request->id_cliente;
         $venta->fecha_venta = $request->fecha_venta;
         $venta->estado = $request->estado;
         $venta->totalPagar = 0; // Inicialmente es 0, se actualizará con los detalles
-        $venta->save();
-
+        $venta->inicio_registro = now(); // Hora de inicio al crear la venta
+        $venta->save(); // Guardar la venta con el tiempo de inicio
+    
         // Crear los detalles de la venta
         $totalPagar = 0;
         foreach ($request->productos as $productoData) {
@@ -56,7 +69,7 @@ class VentaController extends Controller
             $subtotal = $cantidad * $precioUnitario;
             $igv = $subtotal * 0.18; // Calcular el IGV (18%)
             $totalProducto = $subtotal - $descuento + $igv;
-
+    
             // Guardar el detalle de la venta
             $ventaDetalle = new VentaDetalle();
             $ventaDetalle->id_venta = $venta->id_venta;
@@ -68,18 +81,22 @@ class VentaController extends Controller
             $ventaDetalle->subtotal = $subtotal;
             $ventaDetalle->cambio = 0; // Puedes agregar lógica para calcular el cambio si es necesario
             $ventaDetalle->save();
-
+    
             // Acumulamos el total
             $totalPagar += $totalProducto;
         }
-
+    
         // Actualizar el totalPagar de la venta
         $venta->totalPagar = $totalPagar;
-        $venta->save();
-
+        $venta->fin_registro = now(); // Hora de fin después de procesar todos los productos
+        $venta->save(); // Guardar la venta con el tiempo de fin
+    
         // Redirigir con un mensaje de éxito
         return redirect()->route('ventas.index')->with('success', 'Venta registrada correctamente.');
     }
+    
+
+    
 
     // Ver los detalles de una venta
     public function show($id)
@@ -202,4 +219,49 @@ class VentaController extends Controller
 
     return $pdf->download('reporte-ventas.pdf');
 }
+
+public function nuevaVenta()
+{
+    // Crear una nueva venta con la hora de inicio
+    $venta = new Venta();
+    $venta->id_cliente = 1; // Asumiendo que ya tienes el cliente asignado
+    $venta->totalPagar = 0; // Total inicial (se actualizará más tarde)
+    $venta->fecha_venta = now(); // Fecha actual
+    $venta->estado = 'En proceso'; // Estado inicial
+    $venta->inicio_registro = now(); // Hora de inicio
+    $venta->save();
+
+    // Retornar la vista para que el usuario continúe con la venta
+    return view('ventas.formulario', compact('venta'));
+}
+
+
+
+
+public function guardarVenta(Request $request, $id)
+{
+    // Obtener la venta por ID
+    $venta = Venta::findOrFail($id);
+
+    // Actualizar los detalles de la venta
+    $venta->totalPagar = $request->totalPagar; // Total pagado
+    $venta->estado = 'Completada'; // Cambiar el estado de la venta
+    $venta->fin_registro = now(); // Registrar la hora de fin
+    $venta->save();
+
+    // Calcular la diferencia entre la hora de inicio y fin
+    $inicio = $venta->inicio_registro;
+    $fin = $venta->fin_registro;
+
+    // Verificar la diferencia de tiempo (en minutos o segundos)
+    $diferencia = $fin->diffInSeconds($inicio); // Diferencia en segundos (o minutos si lo prefieres)
+
+    // Mostrar la diferencia en segundos (o minutos)
+    return redirect()->route('ventas.index')->with('success', 'Venta guardada exitosamente. Duración: ' . $diferencia . ' segundos');
+}
+
+
+
+
+
 }

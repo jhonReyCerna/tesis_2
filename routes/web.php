@@ -169,6 +169,12 @@ Route::put('venta_detalles/update/{ventadetalle}', [VentaDetalleController::clas
 
 Route::delete('venta_detalles/destroy/{ventadetalle}', [VentaDetalleController::class, 'destroy'])->name('ventadetalles.destroy');
 
+Route::post('/ventas/nueva', [VentaController::class, 'nuevaVenta']);
+
+Route::post('/ventas/{id_venta}/guardar', [VentaController::class, 'guardarVenta']);
+
+
+
 //----------------------------------------------------------------------------------------------------------
 
 Route::get('/graficos', [GraficoController::class, 'index'])->name('graficos.index');

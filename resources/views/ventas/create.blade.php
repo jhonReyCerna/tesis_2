@@ -31,7 +31,7 @@
                             @endforeach
                         </select>
                     </div>
-
+    
                     <div class="col-md-6">
                         <label for="dni_cliente" class="form-label">Buscar por DNI</label>
                         <div class="input-group">
@@ -40,38 +40,38 @@
                         </div>
                     </div>
                 </div>
-
+    
                 <div class="mb-4">
                     <label for="fecha_venta" class="form-label">Fecha de Venta</label>
                     <input type="date" name="fecha_venta" id="fecha_venta" class="form-control" required>
                 </div>
-
+    
                 <div id="productos-container">
                     <div class="producto mb-4">
-                        <label for="id_producto[]" class="form-label">Producto</label >
+                        <label for="id_producto[]" class="form-label">Producto</label>
                         <select name="productos[0][id_producto]" class="form-control producto-select">
                             <option value="" disabled selected>Seleccionar Producto</option>
                             @foreach($productos->sortBy('nombre') as $producto)
                                 <option value="{{ $producto->id_producto }}" data-precio="{{ $producto->precio }}">{{ $producto->nombre }}</option>
                             @endforeach
                         </select>
-
+    
                         <label for="cantidad[]" class="form-label">Cantidad</label>
                         <input type="number" name="productos[0][cantidad]" class="form-control cantidad-input" required>
-
+    
                         <label for="precio_unitario[]" class="form-label">Precio Unitario</label>
                         <input type="number" name="productos[0][precio_unitario]" class="form-control precio-unitario-input" readonly>
-
+    
                         <label for="descuento[]" class="form-label">Descuento</label>
                         <input type="number" name="productos[0][descuento]" class="form-control descuento-input" placeholder="0" value="0">
-
+    
                         <button type="button" class="btn btn-danger eliminar-producto mt-2">Eliminar Producto</button>
                     </div>
                 </div>
-
+    
                 <button type="button" class="btn btn-primary" id="agregar-producto">Agregar Producto</button>
             </div>
-
+    
             <div class="mb-4">
                 <label for="estado" class="form-label">Estado</label>
                 <select name="estado" id="estado" class="form-control">
@@ -79,17 +79,17 @@
                     <option value="Pagado">Pagado</option>
                 </select>
             </div>
-
+    
             <div class="mb-4">
                 <label for="totalPagar" class="form-label">Total a Pagar</label>
                 <input type="number" name="totalPagar" id="totalPagar" class="form-control" readonly>
             </div>
-
+    
             <div class="mb-4">
                 <label for="igv_total" class="form-label">IGV Total</label>
                 <input type="number" name="igv_total" id="igv_total" class="form-control" readonly>
             </div>
-
+    
             <div class="card-footer d-flex justify-content-between">
                 <button type="submit" class="btn btn-success" id="guardarBtn">Guardar Venta</button>
                 <a href="{{ route('ventas.index') }}" class="btn btn-secondary">Cancelar</a>

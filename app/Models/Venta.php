@@ -19,11 +19,24 @@ class Venta extends Model
         'estado',
     ];
 
+    // Establecer la hora de inicio cuando se crea la venta
+    public static function boot()
+    {
+        parent::boot();
+
+        // Evento para establecer la hora de inicio al crear una venta
+        self::creating(function ($venta) {
+            $venta->inicio_registro = now(); // Hora de inicio
+        });
+    }
+
+    // Relación con los detalles de la venta
     public function detalles()
     {
         return $this->hasMany(VentaDetalle::class, 'id_venta');
     }
 
+    // Relación con el cliente
     public function cliente()
     {
         return $this->belongsTo(Cliente::class, 'id_cliente');

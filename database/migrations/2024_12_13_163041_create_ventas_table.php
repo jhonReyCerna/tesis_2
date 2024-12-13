@@ -2,21 +2,22 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
     public function up(): void
     {
-
         Schema::create('ventas', function (Blueprint $table) {
             $table->id('id_venta');
             $table->unsignedBigInteger('id_cliente');
             $table->decimal('totalPagar', 10, 2);
             $table->date('fecha_venta');
             $table->string('estado', 20);
+            $table->timestamp('inicio_registro')->nullable(); 
+            $table->timestamp('fin_registro')->nullable();
             $table->timestamps();
-
 
             $table->foreign('id_cliente')->references('id_cliente')->on('clientes')->onDelete('cascade');
         });
@@ -24,7 +25,6 @@ return new class extends Migration
 
     public function down(): void
     {
-
         Schema::dropIfExists('ventas');
     }
 };
