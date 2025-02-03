@@ -26,19 +26,17 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
+
+
 Route::get('proveedor/index', [ProveedorController::class, 'index'])->name('proveedores.index');
-
 Route::get('proveedor/create', [ProveedorController::class, 'create'])->name('proveedores.create');
-
 Route::post('proveedor/store', [ProveedorController::class, 'store'])->name('proveedores.store');
-
 Route::get('proveedor/show/{proveedor}', [ProveedorController::class, 'show'])->name('proveedores.show');
-
 Route::get('proveedor/edit/{proveedor}', [ProveedorController::class, 'edit'])->name('proveedores.edit');
-
 Route::put('proveedor/update/{proveedor}', [ProveedorController::class, 'update'])->name('proveedores.update');
-
 Route::delete('proveedor/destroy/{proveedor}', [ProveedorController::class, 'destroy'])->name('proveedores.destroy');
+Route::put('proveedor/desactivar/{proveedor}', [ProveedorController::class, 'desactivar'])->name('proveedores.desactivar');
+
 
 //---------------------------------------------------------------------------------------------------------------------
 

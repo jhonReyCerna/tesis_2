@@ -76,4 +76,13 @@ class ProveedorController extends Controller
         return redirect()->route('proveedores.index')
                          ->with('success', 'Proveedor eliminado exitosamente.');
     }
+
+    public function desactivar($id) {
+        $proveedor = Proveedor::findOrFail($id);
+        $proveedor->activo = !$proveedor->activo;
+        $proveedor->save();
+        return redirect()->route('proveedores.index')->with('success', 'Estado actualizado.');
+    }
+    
+
 }

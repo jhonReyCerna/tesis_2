@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('telefono');
             $table->string('email')->unique();
             $table->string('ruc', 11)->unique();
+            $table->boolean('activo')->default(true); // Nuevo campo
             $table->timestamps();
         });
 

@@ -15,7 +15,13 @@
             <h4>Teléfono: {{ $proveedor->telefono }}</h4>
             <h4>Email: {{ $proveedor->email }}</h4>
             <h4>RUC: {{ $proveedor->ruc }}</h4>
+            <h4>Estado: {{ $proveedor->activo ? 'Activo' : 'Inactivo' }}</h4>
         </div>
     </div>
     <a href="{{ route('proveedores.index') }}" class="btn btn-primary">Volver a la lista</a>
+    <form action="{{ route('proveedores.desactivar', $proveedor) }}" method="POST" style="display:inline;">
+        @csrf
+        @method('PUT')
+        <button type="submit" class="btn btn-danger">{{ $proveedor->activo ? 'Desactivar' : 'Activar' }}</button>
+    </form>
 @stop
