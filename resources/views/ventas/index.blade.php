@@ -21,7 +21,11 @@
 
     <a href="{{ route('ventas.create') }}" class="btn btn-primary mb-3">Nueva Venta</a>
     <a href="{{ route('ventas.reporte') }}" class="btn btn-success mb-3"> <i class="fas fa-file-pdf"></i> Generar Reporte PDF</a>
-
+    <a href="public/tiempos/tiempo.xlsx" class="btn btn-info mb-3" download>
+        <i class="fas fa-file-excel"></i> Generar Reporte Excel
+      </a>
+      
+      
     <div class="card">
         <div class="card-body">
             <table class="table table-bordered table-striped">
