@@ -9,19 +9,25 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h4>ID: {{ $proveedor->id_proveedor }}</h4>
-            <h4>Nombre: {{ $proveedor->nombre }}</h4>
-            <h4>Dirección: {{ $proveedor->direccion }}</h4>
-            <h4>Teléfono: {{ $proveedor->telefono }}</h4>
-            <h4>Email: {{ $proveedor->email }}</h4>
-            <h4>RUC: {{ $proveedor->ruc }}</h4>
-            <h4>Estado: {{ $proveedor->activo ? 'Activo' : 'Inactivo' }}</h4>
+            <p><strong>ID:</strong> {{ $proveedor->id_proveedor }}</p>
+            <p><strong>Nombre:</strong> {{ $proveedor->nombre }}</p>
+            <p><strong>Dirección:</strong> {{ $proveedor->direccion }}</p>
+            <p><strong>Teléfono:</strong> {{ $proveedor->telefono }}</p>
+            <p><strong>Email:</strong> {{ $proveedor->email }}</p>
+            <p><strong>RUC:</strong> {{ $proveedor->ruc }}</p>
+            <p><strong>Estado:</strong> 
+                <span class="badge {{ $proveedor->activo ? 'badge-success' : 'badge-danger' }}">
+                    {{ $proveedor->activo ? 'Activo' : 'Inactivo' }}
+                </span>
+            </p>
+        </div>
+        <div class="card-footer">
+            <a href="{{ route('proveedores.index') }}" class="btn btn-primary">Volver a la lista</a>
+            <form action="{{ route('proveedores.desactivar', $proveedor) }}" method="POST" style="display:inline;">
+                @csrf
+                @method('PUT')
+                <button type="submit" class="btn btn-danger">{{ $proveedor->activo ? 'Desactivar' : 'Activar' }}</button>
+            </form>
         </div>
     </div>
-    <a href="{{ route('proveedores.index') }}" class="btn btn-primary">Volver a la lista</a>
-    <form action="{{ route('proveedores.desactivar', $proveedor) }}" method="POST" style="display:inline;">
-        @csrf
-        @method('PUT')
-        <button type="submit" class="btn btn-danger">{{ $proveedor->activo ? 'Desactivar' : 'Activar' }}</button>
-    </form>
 @stop

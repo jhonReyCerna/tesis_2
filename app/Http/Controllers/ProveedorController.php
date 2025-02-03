@@ -10,19 +10,37 @@ class ProveedorController extends Controller
 
     public function index(Request $request)
 {
-
     $query = Proveedor::query();
 
-    if ($request->filled('search')) {
-        $search = $request->input('search');
-        $query->where('nombre', 'LIKE', "%{$search}%")
-              ->orWhere('ruc', 'LIKE', "%{$search}%");
+    // Filtrar por estado (activo o inactivo)
+    if ($request->has('status') && $request->status !== '') {
+        $query->where('activo', $request->status);
     }
 
+    // Filtrar por nombre o RUC
+    if ($request->filled('search')) {
+        $search = $request->input('search');
+        $query->where(function ($q) use ($search) {
+            $q->where('nombre', 'LIKE', "%{$search}%")
+              ->orWhere('ruc', 'LIKE', "%{$search}%");
+        });
+    }
+
+    // Paginación de los resultados
     $proveedores = $query->paginate(10);
 
+    // Si la solicitud es AJAX, solo retornar la vista de la tabla
+    if ($request->ajax()) {
+        return response()->json([
+            'view' => view('proveedores.proveedores_table', compact('proveedores'))->render()
+        ]);
+    }
+
+    // Pasar los resultados a la vista con los filtros aplicados
     return view('proveedores.index', compact('proveedores'));
 }
+
+
 
     public function create()
     {

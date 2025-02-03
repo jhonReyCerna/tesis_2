@@ -8,17 +8,27 @@ use Illuminate\Http\Request;
 class CategoriaController extends Controller
 {
     public function index(Request $request)
-    {
-        $search = $request->input('search');
+{
+    $query = Categoria::query();
 
-        $categorias = Categoria::when($search, function($query, $search) {
-            return $query->where('nombre', 'like', "%{$search}%");
-        })->get();
-
-        $categorias = Categoria::paginate(10);
-
-        return view('categorias.index', compact('categorias'));
+    // Filtro por nombre o descripción
+    if ($request->has('search') && $request->search) {
+        $search = $request->search;
+        $query->where(function($q) use ($search) {
+            $q->where('nombre', 'like', "%{$search}%")
+              ->orWhere('descripcion', 'like', "%{$search}%");
+        });
     }
+
+    // Filtro por estado
+    if ($request->has('status') && $request->status !== '') {
+        $query->where('activo', $request->status);
+    }
+
+    $categorias = $query->paginate(10);
+    return view('categorias.index', compact('categorias'));
+}
+
 
     public function create()
     {
@@ -76,5 +86,15 @@ class CategoriaController extends Controller
         $categoria->delete();
 
         return redirect()->route('categorias.index')->with('success', 'Categoría eliminada exitosamente');
+    }
+
+    public function desactivar(Categoria $categoria)
+    {
+        // Cambiar el estado de la categoría (si está activa, la desactiva, y viceversa)
+        
+        $categoria->activo = !$categoria->activo;
+        $categoria->save();
+
+        return redirect()->route('categorias.index')->with('success', 'Categoría actualizada correctamente');
     }
 }

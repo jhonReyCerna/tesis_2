@@ -14,6 +14,7 @@ use App\Http\Controllers\Reporteventa;
 use App\Http\Controllers\ReporteventaController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\VentaDetalleController;
+use App\Models\Categoria;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +54,10 @@ Route::get('categoria/edit/{categoria}', [CategoriaController::class, 'edit'])->
 Route::put('categoria/update/{categoria}', [CategoriaController::class, 'update'])->name('categorias.update');
 
 Route::delete('categoria/destroy/{categoria}', [CategoriaController::class, 'destroy'])->name('categorias.destroy');
+
+Route::put('categoria/desactivar/{categoria}', [CategoriaController::class, 'desactivar'])->name('categorias.desactivar');
+
+
 
 //---------------------------------------------------------------------------------------------------------------------
 

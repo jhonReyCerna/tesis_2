@@ -17,9 +17,15 @@
         </div>
     @endif
 
-    <form class="mb-3">
+    <form class="mb-3" method="GET">
         <div class="input-group">
-            <input type="text" id="search" class="form-control" placeholder="Buscar por nombre o RUC">
+            <input type="text" id="search" class="form-control" placeholder="Buscar por nombre o RUC" value="{{ request('search') }}">
+            <select id="status-filter" name="status" class="form-control ml-2">
+                <option value="">Filtrar por estado</option>
+                <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Activo</option>
+                <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Inactivo</option>
+            </select>
+            <button type="submit" class="btn btn-primary ml-2">Filtrar</button>
         </div>
     </form>
 
@@ -67,7 +73,7 @@
             </table>
 
             <div class="d-flex justify-content-center">
-                {{ $proveedores->links() }}
+                {{ $proveedores->appends(request()->query())->links() }}
             </div>
         </div>
     </div>
@@ -95,6 +101,24 @@
                         form.submit();
                     }
                 });
+            });
+        });
+
+        // Filtrar proveedores por nombre o RUC en tiempo real
+        document.getElementById('search').addEventListener('input', function() {
+            const search = this.value.toLowerCase(); // Obtener el texto ingresado
+            const rows = document.querySelectorAll('#proveedores-table tr'); // Obtener todas las filas
+
+            rows.forEach(row => {
+                const nombre = row.cells[0]?.textContent.toLowerCase(); // Nombre del proveedor
+                const ruc = row.cells[2]?.textContent.toLowerCase(); // RUC del proveedor
+
+                // Verificar si el texto de búsqueda coincide con el nombre o RUC
+                if (nombre.includes(search) || ruc.includes(search)) {
+                    row.style.display = ''; // Mostrar la fila si hay coincidencia
+                } else {
+                    row.style.display = 'none'; // Ocultar la fila si no hay coincidencia
+                }
             });
         });
     </script>
